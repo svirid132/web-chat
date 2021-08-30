@@ -1,0 +1,15 @@
+.special-message {
+    &__wrapper {
+        display: flex;
+    }
+
+    &__name {
+        margin-right: 15px;
+        text-transform: uppercase;
+        color: white;
+    }   
+
+    &__text {
+        font-size: 22px;
+    }
+}

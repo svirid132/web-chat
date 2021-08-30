@@ -1,0 +1,19 @@
+.videochat-messager {
+    &__wrapper {
+        height: 100vh;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    &__messager {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    &__videochat {
+        margin-right: 0; 
+        width: 95%;
+    }
+}

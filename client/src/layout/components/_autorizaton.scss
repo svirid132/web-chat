@@ -1,0 +1,33 @@
+.authorization {
+    &__wrapper {
+        display: flex;
+        height: 100vh;
+        width: 100%;
+        background-color: orange;
+        justify-content: center;
+        align-items: center;
+    }
+    &__form {
+        display: flex;
+        flex-direction: column;
+        width: 500px;
+        height: 250px;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &__title{
+        font-size: 36px;
+        text-align: center;
+    }
+    &__input {
+        width: 300px;
+        font-size: 30px;
+    }
+    &__button {
+        padding: 10px 10px;
+        font-size: 24px;
+        border-radius: 10px;
+        outline: none;
+        border: none;
+    }
+}

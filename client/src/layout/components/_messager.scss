@@ -1,0 +1,77 @@
+.messager {
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 420px;
+        height: calc(100vh - 20px);
+        justify-content: flex-start;
+        margin: 10px;
+    }
+
+    &__wrapper-messages {
+        height: 100%;
+        border-radius: 10px;
+        margin: 0 0 10px;
+        background-color: rgb(238, 238, 238);
+        overflow: auto;
+    }
+
+    &__mesagges {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    &__message {
+        padding: 2px 15px;
+        border-radius: 10px;
+        background-color: orange;
+        margin: 0 15px 20px;
+        line-height: 24px;
+        font-size: 18px;
+        max-width: 300px;
+
+        &--special {
+            background-color: rgb(151, 16, 122);
+            align-self: center;
+        }
+
+        &:nth-of-type(1) {
+            margin-top: 20px;
+        }
+
+        &-self {
+            align-self: flex-end;
+            background-color: rgb(190, 190, 255);
+        }
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 30px;
+
+        & input {
+            font-size: 18px;
+            width: 370px;
+            border-radius: 10px; 
+            outline: none;
+            border: 1px solid gray;
+            background-color: rgb(251, 251, 251);
+            padding-left: 10px;
+        }
+
+        & input::placeholder {
+        }
+
+        & button {
+            width: 40px;
+            background-color: orange;
+            border-radius: 10px;
+            border: 1px solid gray; 
+            outline: none;
+        }
+    }
+}

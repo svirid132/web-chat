@@ -1,0 +1,94 @@
+.videochat {
+    &__wrapper {
+        display: flex;  
+        height: 100vh;
+        max-height: 100vh;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__videos {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        & li {
+            background-color: orange;
+            border-radius: 10px;
+            margin: 10px;
+            width: 45%;
+            height: 45%;
+            &:nth-of-type(2n) {
+                margin-right: 5px; 
+            }
+            &:nth-of-type(4n + 1), &:nth-of-type(4n + 2) {
+                align-self: flex-end;
+            }
+            &:nth-of-type(4n + 3), &:nth-of-type(4n + 4) {
+                align-self: flex-start;
+            }
+
+            & video {
+                background-color: white;
+                object-fit: contain;
+                height: 100%;
+                width: 100%;
+                border-radius: 10px;
+            }
+        }
+    }
+
+    &__menu {
+        display: flex;
+        margin: 10px;
+        height: 100px;
+        width: 100%;
+        background-color: gray;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    &__video, &__audio {
+        &--active {
+            background-color: orange;
+        }
+    }
+
+    &__video, &__audio, &__close {
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 20px;
+        margin: 10px;
+    }
+
+    &__close {
+        background-color: red;
+    }
+
+    &__navigation {
+        display: flex;
+        position: absolute;
+        left: 20px;
+    }
+}
+
+.navigation {
+    &__btn {
+        line-height: 1em;
+        margin: 5px;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 20px;
+
+        &--active {
+            background-color: orange;
+        }
+    }
+}
