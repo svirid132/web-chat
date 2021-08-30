@@ -3,18 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faPhone, faVideo } from '@fortawesome/free-solid-svg-icons'
 import classNames from 'classnames';
 import Video from "./Video";
+import { Redirect } from 'react-router-dom';
 
-function Videochat({myStream, userStreams, className, onClickAudio, onClickVideo}) {
+function Videochat({myUser, users, className, onClickAudio, onClickVideo}) {
 
-    const allUsers = userStreams?.length + 1; //1 - это myStream
+    const allUsers = users?.length + 1; //1 - это myUser
     const maxNavigation = Math.floor(allUsers / 4);
     const [navigation, setNavigation] = useState(Math.floor(allUsers / 4));
+    const [isClose, setIsClose] = useState(false);
 
-    const myVideo = <Video key={myStream.id} muted = {true} srcObject={myStream.stream}/>
+    const myVideo = <Video key={myUser.id} name = {myUser.name} muted = {true} srcObject={myUser.stream}/>
 
-    const allVideos = userStreams.map((user) => {
-        console.info("userStream_2", user.stream);
-        return <Video key={user.id} srcObject={user.stream} muted={true}/>
+    const allVideos = users.map((user) => {
+        return <Video key={user.id} name = {user.name} srcObject={user.stream} muted={true}/>
     });
 
     allVideos.unshift(myVideo);
@@ -35,9 +36,15 @@ function Videochat({myStream, userStreams, className, onClickAudio, onClickVideo
         }
     }
 
+
     const handleOnClickNext = () => setNavigation(navigation < maxNavigation ? navigation + 1 : navigation);
     const handleOnClickBack = () => setNavigation(navigation > 0 ? navigation - 1 : navigation);
+    const handleOnClose = () => setIsClose(true);
 
+    if(isClose) {
+        setTimeout(() => window.location.reload(), 0); 
+        return <Redirect to={"/"}/>;
+    }
 
     return (
         <div className={classNames("videochat", className)}>
@@ -51,7 +58,7 @@ function Videochat({myStream, userStreams, className, onClickAudio, onClickVideo
                             onClick={handleOnClickBack} 
                             className = { classNames(
                                     "navigation__btn", 
-                                    {"navigation__btn--active": navigation < maxNavigation ? true : false}
+                                    {"navigation__btn--active": navigation > 0 ? true : false}
                                     ) 
                             }>
                         {"<"}</button>
@@ -59,19 +66,19 @@ function Videochat({myStream, userStreams, className, onClickAudio, onClickVideo
                             onClick={handleOnClickNext} 
                             className = {classNames(
                                     "navigation__btn", 
-                                    {"navigation__btn--active":  navigation > 0 ? true : false}) 
+                                    {"navigation__btn--active":  navigation < maxNavigation ? true : false}) 
                             }>
                         {">"}</button>
                     </div>
                     <button 
                         onClick = {() => onClickAudio()} 
-                        className={classNames("videochat__audio", {"videochat__audio--active": myStream.audio})}>
+                        className={classNames("videochat__audio", {"videochat__audio--active": myUser.audio})}>
                     <FontAwesomeIcon icon={faCircle}/></button>
                     <button
                         onClick = {() => onClickVideo()} 
-                        className={classNames("videochat__video", {"videochat__video--active": myStream.video})}>
+                        className={classNames("videochat__video", {"videochat__video--active": myUser.video})}>
                     <FontAwesomeIcon icon={faVideo}/></button>
-                    <button className="videochat__close"><FontAwesomeIcon icon={faPhone}/></button>
+                    <button className="videochat__close" onClick={() => handleOnClose()}><FontAwesomeIcon icon={faPhone}/></button>
                 </header>
             </div>
         </div>
@@ -79,13 +86,13 @@ function Videochat({myStream, userStreams, className, onClickAudio, onClickVideo
 }
 
 Videochat.defaultProps = {
-    myStream: {
+    myUser: {
         id: -1,
         stream: null,
         audio: false,
         video: false,
     },
-    userStreams: [],
+    users: [],
 }
 
 export default Videochat

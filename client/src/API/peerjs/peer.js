@@ -22,16 +22,15 @@ function openPeer() {
     peer = new Peer(myId);
 
     peer.on("open", (myId) => { 
-        //Выстрел себе ногу, состояние гонки!
-        const users = store.getState().socket.webchat.users; 
-        createStream(true, true, users);
+        const usersIds = store.getState().socket.webchat?.users.map((user) => roomId + user.id); 
+        createStream(true, true, usersIds);
     });
 
     peer.on('call', (call) => {
-        if (streams.has(call.peer)) return;
         const myStream = streams.get(myId);
         call.answer(myStream);
         call.on('stream', (remoteStream) => {
+            console.log("reseive new Stream", remoteStream);
             streams.set(call.peer, remoteStream);
             store.dispatch(addStream({id: call.peer}));
         }, function(err) {
@@ -40,7 +39,7 @@ function openPeer() {
     });
 }
 
-export function createStream(audio, video, users) {  
+export function createStream(audio, video, userIds) {  
 
     //audio, video: bool
     const oldStream = streams.get(myId);
@@ -48,16 +47,17 @@ export function createStream(audio, video, users) {
         stopStreamTracks(oldStream);
     }
     if (audio || video) {
+        console.log("audio || video");
         navigator.mediaDevices.getUserMedia({ audio, video})
             .then((myStream) => {
+                console.log("navigator");
                 streams.set(myId, myStream);
                 store.dispatch(setMyStream(myId, audio, video));
 
-                const ids = users?.map((user) => user.id);
-                ids?.forEach((id) => {
+                userIds.forEach((id) => {
             
-                    if (myId === roomId + id) return;
-                    const call = peer.call( roomId + id, myStream);
+                    if (myId === id) return;
+                    const call = peer.call( id, myStream);
                     call.on("stream", (remoteStream) => {
                         streams.set(call.peer, remoteStream);
                         store.dispatch(addStream({id: call.peer}));
@@ -67,6 +67,8 @@ export function createStream(audio, video, users) {
                     console.log('Failed to get local stream' ,err);
                 });
             });
+    } else {
+        stopStreamTracks(streams.get(myId));
     }
 }
 

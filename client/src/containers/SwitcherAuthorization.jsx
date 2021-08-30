@@ -22,7 +22,7 @@ function SwitcherAuthorization({roomId, stateJoin, user, join, sendUsername}) {
         }
         if (stateJoin === STATE_JOIN.FAILED) {
             alert("Такой комнаты нету, создайте её");
-            setTimeout(() => window.location.reload(), 100); 
+            setTimeout(() => window.location.reload(), 0); 
             return <Redirect to={"/"}/>;
         }
         statusAuthorization = STATUS_AUTHORIZATION.JOIN;

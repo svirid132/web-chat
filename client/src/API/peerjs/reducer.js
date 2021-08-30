@@ -1,4 +1,5 @@
 import { ADD_STREAM, CREATE_STREAM, REMOVE_STREAM, SET_MY_STREAM } from "./actions";
+import { createStream } from "./peer";
 
 const initState = {
     myPeer: {
@@ -37,10 +38,12 @@ function peer(state = initState, action) {
             return newState;
         }
         case CREATE_STREAM: {
-            // createStream(
-            //     action.payload.audio, 
-            //     action.payload.video
-            // );
+            const ids = state.userPeers.map((user) => user.id);
+            createStream(
+                action.payload.audio, 
+                action.payload.video,
+                ids
+            );
             const newState = Object.assign({}, state);
             const newMyPeer = Object.assign({}, state.myPeer);
             newMyPeer.video = action.payload.video;

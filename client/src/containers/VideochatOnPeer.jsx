@@ -5,21 +5,28 @@ import { Videochat } from "../components";
 
 const mapStateToProps = (state, ownProps) => {
   
-    const userStreams = state.peer.userPeers.map(user => {
+    const roomId = state.socket.roomSettings.id;
+    const usersFromSocket =  state.socket.webchat.users;
+    const users = state.peer.userPeers.map(user => {
+        const id = Number(user.id.replace(roomId, ""));
+        const userList = usersFromSocket.filter((user) => user.id === id);
         return {
             id: user.id,
+            name: userList[0]?.name,
             stream: streams.get(user.id),
         }
     });
 
-    const myStream = {
+    const myName =  state.socket.settings.user.name;
+    const myUser = {
         ...state.peer.myPeer,
+        name: myName,
         stream: streams.get(state.peer.myPeer.id),
     }
     
 return ({
-    myStream,
-    userStreams,
+    myUser,
+    users,
     className: ownProps.className,
 })}
 
@@ -29,8 +36,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mergeProps = (stateProp, dispatchProp, ownProp) => ({
     ...stateProp,
-    onClickAudio: dispatchProp.createStream(!stateProp.myStream.audio, stateProp.myStream.video),
-    onClickVideo: dispatchProp.createStream(stateProp.myStream.audio, !stateProp.myStream.video),
+    onClickAudio: dispatchProp.createStream(!stateProp.myUser.audio, stateProp.myUser.video),
+    onClickVideo: dispatchProp.createStream(stateProp.myUser.audio, !stateProp.myUser.video),
     ...ownProp,
 });
 

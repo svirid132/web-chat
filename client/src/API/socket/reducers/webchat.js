@@ -54,11 +54,13 @@ function webchat (state = initState, action) {
             return newState;
         }
         case REMOVE_USER: {
-            const newMessages_remove = Object.assign([], newState.messages);
-            const newUsers_remove = state.users?.filter((user) => user.id !== action.payload.id);
-            newState.users = newUsers_remove;
+
+            //Не удаляем его имя нужно!
+            // const newUsers_remove = state.users?.filter((user) => user.id !== action.payload.id);
+            // newState.users = newUsers_remove;
 
             //Новое специальное сообщение
+            const newMessages_remove = Object.assign([], newState.messages);
             newState.countSpecialMessage += 1;
             const idSpecialMessage_remove = -newState.countSpecialMessage;
             newMessages_remove.push({id: idSpecialMessage_remove ,name: "отсоединился", text: action.payload.name});
