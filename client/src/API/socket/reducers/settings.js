@@ -34,6 +34,7 @@ function settings (state = initState, action) {
             newState.nameList = action.payload;
             return newState;
         case ADD_MY_ID: {
+            socket.emit("history");//После авторизации запрашиваем историю сообщений
             newUser.id = action.payload;
             newState.user = newUser;
             return newState;

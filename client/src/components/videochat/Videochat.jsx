@@ -8,8 +8,8 @@ import { Redirect } from 'react-router-dom';
 function Videochat({myUser, users, className, onClickAudio, onClickVideo}) {
 
     const allUsers = users?.length + 1; //1 - это myUser
-    const maxNavigation = Math.floor(allUsers / 4);
-    const [navigation, setNavigation] = useState(Math.floor(allUsers / 4));
+    const maxNavigation = allUsers % 4 === 0 ? allUsers / 4 - 1 : Math.floor(allUsers / 4);
+    const [navigation, setNavigation] = useState(allUsers % 4 === 0 ? allUsers / 4 - 1 : Math.floor(allUsers / 4));
     const [isClose, setIsClose] = useState(false);
 
     const myVideo = <Video key={myUser.id} name = {myUser.name} muted = {true} srcObject={myUser.stream}/>
@@ -35,7 +35,6 @@ function Videochat({myUser, users, className, onClickAudio, onClickVideo}) {
             navigationVideos.push(<li key={ -i - 5}></li>);
         }
     }
-
 
     const handleOnClickNext = () => setNavigation(navigation < maxNavigation ? navigation + 1 : navigation);
     const handleOnClickBack = () => setNavigation(navigation > 0 ? navigation - 1 : navigation);

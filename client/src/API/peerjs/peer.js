@@ -7,30 +7,31 @@ let myId;
 let roomId;
 
 //Id у peer схож с id у сокету; peerId = socketId
-export function initPeer() {
+export function initPeer(ids) {
     if (myId) return;
     roomId = store.getState().socket.roomSettings.id;
     myId = roomId +
         store.getState().socket.settings.user.id;
-    openPeer();
+    console.info(myId);
+    console.info(ids);
+    openPeer(ids);
 } 
 
 //Store не может хранить такие данные
 export const streams = new Map();
 
-function openPeer() {
-    peer = new Peer(myId);
+function openPeer(ids) {
+    peer = new Peer(myId,{});
 
     peer.on("open", (myId) => { 
-        const usersIds = store.getState().socket.webchat?.users.map((user) => roomId + user.id); 
-        createStream(true, true, usersIds);
+        const peerIds = ids?.map((id) => roomId + id); 
+        createStream(true, true, peerIds);
     });
 
     peer.on('call', (call) => {
         const myStream = streams.get(myId);
         call.answer(myStream);
         call.on('stream', (remoteStream) => {
-            console.log("reseive new Stream", remoteStream);
             streams.set(call.peer, remoteStream);
             store.dispatch(addStream({id: call.peer}));
         }, function(err) {
@@ -47,10 +48,8 @@ export function createStream(audio, video, userIds) {
         stopStreamTracks(oldStream);
     }
     if (audio || video) {
-        console.log("audio || video");
-        navigator.mediaDevices.getUserMedia({ audio, video})
+        navigator.mediaDevices.getUserMedia({ audio: false, video})
             .then((myStream) => {
-                console.log("navigator");
                 streams.set(myId, myStream);
                 store.dispatch(setMyStream(myId, audio, video));
 
@@ -66,13 +65,14 @@ export function createStream(audio, video, userIds) {
                 }, function(err) {
                     console.log('Failed to get local stream' ,err);
                 });
-            });
+            }, () => alert("Для нормальной рабты вебчата, необходимо иметь переферийные устройства ввода и ввывода аудио и видео!"));
     } else {
         stopStreamTracks(streams.get(myId));
     }
 }
 
 function stopStreamTracks(stream) {
+    if (!stream) return;
     stream.getVideoTracks().forEach((track) => {
         track.stop();
     });

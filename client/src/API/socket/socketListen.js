@@ -31,6 +31,8 @@ export function socketListen(store) {
 
         socket.on("history", (history) => {
             store.dispatch(setHistory(history));
+            const ids = history.users?.map((user) => user.id)
+            initPeer(ids);
         });
 
         socket.on("new message", (message) => {
@@ -45,7 +47,6 @@ export function socketListen(store) {
         //индетефицируемся на сервере
         socket.on("id", (id) => {
             store.dispatch(addMyId(id));
-            initPeer();
         });
 
         socket.on("disconect", (user) => {
@@ -61,7 +62,7 @@ export function socketListen(store) {
         });
 
         socket.on("failed join", () => {
-            store.dispatch(setJoin(STATE_JOIN.FAILED));
+            store.dispatch(setJoin(null, STATE_JOIN.FAILED));
         });
     }); 
 } 

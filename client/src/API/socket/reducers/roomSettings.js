@@ -20,6 +20,7 @@ function roomSettings (state = initState, action) {
             socket.emit("join room", action.payload);
             return state;
         case SET_JOIN:
+            socket.emit("list name");
             newState.id = action.payload.id;
             newState.stateJoin = action.payload.state; 
             return newState;

@@ -18,7 +18,7 @@ function webchat (state = initState, action) {
     const newState = Object.assign({}, state);
     switch(action.type) {
         case GET_HISTORY: 
-            socket.emit("history");
+            // socket.emit("history");
             break;
         case SET_HISTORY:
             newState.messages = action.payload.messages;
@@ -33,7 +33,6 @@ function webchat (state = initState, action) {
             newState.messages = newMessages;
             return newState;
         default:
-
     }
 
 

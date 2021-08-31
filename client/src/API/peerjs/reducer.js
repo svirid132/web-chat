@@ -14,9 +14,6 @@ function peer(state = initState, action) {
     switch(action.type) {
         case SET_MY_STREAM: {
             const newState = Object.assign({}, state);
-            // const newMyPeer = Object.assign({}, state.myPeer);
-            // newMyPeer.id = action.payload.id;
-            // newMyPeer.stream = action.payload.stream;
             const newMyPeer = action.payload;
             newState.myPeer = newMyPeer;
             return newState;

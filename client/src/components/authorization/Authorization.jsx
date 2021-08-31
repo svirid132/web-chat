@@ -9,15 +9,7 @@ export const STATUS_AUTHORIZATION = {
 //nameList, getNameList, sendUsername - для статуса join
 //createJoin, setUsername - для статуса create_join
 
-function Authorization({status, nameList, sendUsername, setFinalUsername, getNameList, createJoin, className}) {
-
-    useEffect(() => {
-        if (status === STATUS_AUTHORIZATION.CREATE_JOIN) return;
-        //Не самое лучшое решение, но при проектировании казалась нормально)
-        if (nameList === null) {
-            getNameList();
-        }
-    }, [nameList]);
+function Authorization({status, nameList, sendUsername, setFinalUsername, createJoin, className}) {
     
     const [username, setUsername] = useState("");
 

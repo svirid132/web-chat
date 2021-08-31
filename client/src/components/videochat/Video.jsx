@@ -4,13 +4,10 @@ import  classNames  from "classnames"
 
 function Video({name, muted, srcObject}) {
     const [isPlay, setIsPlay] = useState(false);
-
-    console.log("name", name);
-
     return (
         <li className = "video">
             <div className = "video__wrapper">
-                <video onEnded={() => {setIsPlay(false); console.log("onEnd")}} onPlay={() => setIsPlay(true)} onLoadedMetadata={(e) => {e.target.play(); console.log("userStream_5", e.srcObject); }} ref={
+                <video onEnded={() => {setIsPlay(false);}} onPlay={() => setIsPlay(true)} onLoadedMetadata={(e) => {e.target.play(); }} ref={
                     (e) => {
                         if (!e || isPlay) return; 
                         e.pause();

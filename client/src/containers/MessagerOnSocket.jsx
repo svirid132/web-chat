@@ -1,6 +1,6 @@
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { connect } from "react-redux";
-import { getHistory, sendNewMessage } from "../API/socket/actionCreators/webchat";
+import { sendNewMessage } from "../API/socket/actionCreators/webchat";
 import { Messager } from "../components";
 
 const mapStateToProps = (state, ownProps) => ({
@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({getHistory, sendNewMessage}, dispatch);
+    return bindActionCreators({sendNewMessage}, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)

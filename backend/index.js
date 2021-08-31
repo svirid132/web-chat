@@ -53,9 +53,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("list name", () => {
+    console.log("list name", roomId);
     if (!roomId) return;
     const usernames = history.users.map((user) => user.name);
-    socket.to(roomId).emit("list name", usernames);
+    socket.emit("list name", usernames);
   });
 
   socket.on("add user", (username) => {
@@ -69,8 +70,8 @@ io.on("connection", (socket) => {
     history.users.push(user);
     socketUser = user;
     currentSession.users.push(user);
-    socket.emit("history", {...history, lastIdUser: null});
     socket.emit("id", socketUser.id);//индетефицируем пользователя на сервере
+    socket.emit("history", {...history, lastIdUser: null});
     socket.broadcast.to(roomId).emit("added user", socketUser);
     const usernames = history.users.map((user) => user.name);
     socket.broadcast.to(roomId).emit("list name", usernames);//Для авторизации

@@ -8,13 +8,6 @@ import classNames from 'classnames';
 function Messager({user, users, messages, getHistory, sendNewMessage, className}) {
     
     const [text, setText] = useState("");
-
-    //Выстрел в себе ногу
-    useEffect(() => {
-        if (messages === null) {
-            getHistory();
-        }
-    }, [messages]);
     
     const handleSubmit = (e) => {
       e.preventDefault();
